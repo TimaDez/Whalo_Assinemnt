@@ -18,15 +18,8 @@ namespace Controllers
 {
     public class BoxingLootController : MonoBehaviour
     {
-        #region Const
-
-        private const string LootBoxLayer = "LootBox";
-
-        #endregion
-
         #region Editor
         
-        [SerializeField] private Camera _camera;
         [SerializeField] private PrizeView _prizeViewPrefab;
         [SerializeField] private LootBox[] _boxes;
         //[SerializeField] private Transform[] _boxes;
@@ -52,17 +45,6 @@ namespace Controllers
 
         #region Methods
 
-        private void Awake()
-        {
-            if (_camera == null)
-            {
-                _camera = Camera.main;
-            }
-
-            _boxLayer = 1 << LayerMask.NameToLayer(LootBoxLayer);
-
-        }
-
         private async void Start()
         {
             InitButtons().Forget();
@@ -87,28 +69,7 @@ namespace Controllers
                 prize.SetData(shuffledPrizes[i]);
             }
         }
-
-        private void Update()
-        {
-            return;
-            if (Input.GetMouseButtonDown(0))
-            {
-                //ProcessPointer(Input.mousePosition);
-
-                var pos = (Vector2)Input.mousePosition;
-                var ray = _camera.ScreenPointToRay(pos);
-
-                if (Physics.Raycast(ray, out var hit, _interactionDistance, _boxLayer, QueryTriggerInteraction.Ignore))
-                {
-                    Debug.Log($"[BoxingLootController] Update() Raycast Hit");
-                    if (hit.collider.TryGetComponent<IInteractable>(out var interact))
-                    {
-                        interact.Interact();
-                    }
-                }
-            }
-        }
-
+        
         private async UniTaskVoid RunFlowAsync()
         {
             if (_boxButtons == null || _boxButtons.Length == 0)
