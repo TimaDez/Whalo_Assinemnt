@@ -35,12 +35,9 @@ namespace UI
             _isOpen = true;
             Debug.Log($"[LootBox] Interact()");
             
-            _capGraphic.SetActive(false);
             var t = transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0f), 0.25f, 10, 0.9f);
             await t.AsyncWaitForCompletion();
-            
-            //TODO: animation
-            //TODO: animation
+            _capGraphic.SetActive(false);
         }
 
         #endregion

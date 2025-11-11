@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98b495c485d42a09c7d1addfa1ef7b5, type: 3}
   m_Name: LevelModel
   m_EditorClassIdentifier: 
+  _keyStarterAmount: 2
   _prizes:
   - {fileID: 11400000, guid: c678f8bbc16f172439085f509494b1fc, type: 2}
   - {fileID: 11400000, guid: c678f8bbc16f172439085f509494b1fc, type: 2}

@@ -1,3 +1,4 @@
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,13 @@ namespace UI
 
         #region Methods
 
-        public void SetAmount(int amount)
+        public void Init(Sprite sprite, int amount = 0)
+        {
+            _image.sprite = sprite;
+            _amount.text = amount.ToString();
+        }
+        
+        public void AddAmount(int amount)
         {
             _amount.text = amount.ToString();
         }
@@ -26,5 +33,6 @@ namespace UI
         }
         
         #endregion
+
     }
 }

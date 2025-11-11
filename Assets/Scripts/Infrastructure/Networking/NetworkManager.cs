@@ -14,7 +14,6 @@ namespace Infrastructure.Networking
         
         private static readonly string CacheDir = Path.Combine(Application.persistentDataPath, "images_cache");
 
-        // Supports: /file/d/{id}/view, uc?export=download&id={id}, open?id={id}, sharing?id={id}
         private static readonly Regex FileIdRegex = new Regex(
             @"(?:/d/([a-zA-Z0-9_-]{10,}))|(?:[?&]id=([a-zA-Z0-9_-]{10,}))",
             RegexOptions.Compiled | RegexOptions.IgnoreCase
@@ -156,6 +155,7 @@ namespace Infrastructure.Networking
 
             return req.downloadHandler.data;
         }
+        
         #endregion
     }
 }

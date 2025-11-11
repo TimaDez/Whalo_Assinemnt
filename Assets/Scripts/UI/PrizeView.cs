@@ -19,9 +19,8 @@ namespace UI
         [SerializeField] private TextMeshProUGUI  _text;
 
         #endregion
-
-        #region Methods
         
+        #region Methods
         
         public async void SetData(PrizeModel model)
         {
@@ -58,12 +57,6 @@ namespace UI
             return null;
         }
         
-        public void SetPrize(int amount)
-        {
-            _image.sprite = Resources.Load<Sprite>("Sprites/UI/PrizeView/Image");
-            _text.text = $"{amount}";
-        }
-
         public void OnButtonClicked()
         {
             Debug.Log($"[PrizeView] OnButtonClicked() ");

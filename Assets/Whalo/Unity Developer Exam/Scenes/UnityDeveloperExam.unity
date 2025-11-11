@@ -381,6 +381,53 @@ Transform:
   - {fileID: 2127026937231987518}
   m_Father: {fileID: 1110200215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &339918555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 339918557}
+  - component: {fileID: 339918556}
+  m_Layer: 0
+  m_Name: LootBoxesView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &339918556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339918555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bee0367a01f43b499af462671767d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keyCounter: {fileID: 4394492473241018121}
+  _energyCounter: {fileID: 1277421598}
+  _coinCounter: {fileID: 829144569}
+--- !u!4 &339918557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339918555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &646854211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,8 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a61e3e854c86962418724892d877bc26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 1450185105550431119}
-  _prizeViewPrefab: {fileID: 271153880682184538, guid: bee502600cfa94487a55afa21e5d1056, type: 3}
+  _lootBoxesView: {fileID: 339918556}
   _boxes:
   - {fileID: 2127026935922911338}
   - {fileID: 2127026937027453647}
@@ -1057,11 +1103,8 @@ MonoBehaviour:
   - {fileID: 2928651359009086513}
   - {fileID: 8208026888047995583}
   - {fileID: 3151480151213025770}
+  _playerModel: {fileID: 11400000, guid: fb67dc734f97d1a49996f9970218608d, type: 2}
   _levelModel: {fileID: 11400000, guid: 0f6e5c2860b96aa42800ec25653a0cdf, type: 2}
-  _keyCounter: {fileID: 4394492473241018121}
-  _energyCounter: {fileID: 1277421598}
-  _coinCounter: {fileID: 829144569}
-  _image: {fileID: 0}
 --- !u!4 &1232584535
 Transform:
   m_ObjectHideFlags: 0
@@ -8186,3 +8229,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1450185105550431118}
   - {fileID: 1232584535}
+  - {fileID: 339918557}
