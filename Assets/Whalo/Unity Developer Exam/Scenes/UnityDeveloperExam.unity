@@ -410,9 +410,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bee0367a01f43b499af462671767d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flyingResourcePrefab: {fileID: 5482300025195904795, guid: fae34e477b3148045a2d3d4f8d2f7345, type: 3}
   _keyCounter: {fileID: 4394492473241018121}
   _energyCounter: {fileID: 1277421598}
   _coinCounter: {fileID: 829144569}
+  _keyPivot: {fileID: 5020917880166629531}
+  _energyPivot: {fileID: 2146084653}
+  _coinPivot: {fileID: 1024552038}
 --- !u!4 &339918557
 Transform:
   m_ObjectHideFlags: 0

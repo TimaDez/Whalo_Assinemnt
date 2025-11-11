@@ -22,7 +22,7 @@ namespace UI
             _amount.text = amount.ToString();
         }
         
-        public void AddAmount(int amount)
+        public void SetAmount(int amount)
         {
             _amount.text = amount.ToString();
         }

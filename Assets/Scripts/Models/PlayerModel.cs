@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using DataTypes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -23,21 +25,19 @@ namespace Models
 
         #endregion
 
-        #region Private Fields
-
-        private bool _isInitialized;
-
-        #endregion
-        
         #region Properties
 
         public int CoinsBalance => _coinsBalance;
-
         public int GemsBalance => _gemsBalance;
         public int KeysBalance => _keysBalance;
 
         #endregion
-        
+
+        #region Private Fields
+
+        private Dictionary<PrizeType, int> _balances;
+
+        #endregion
         #region Methods
 
         public void Initialize(int coinsBalance, int gemsBalance,  int keysBalance)
@@ -45,48 +45,65 @@ namespace Models
             _coinsBalance = coinsBalance;
             _gemsBalance = gemsBalance;
             _keysBalance = keysBalance;
-            _isInitialized = true;
+
+            _balances = new Dictionary<PrizeType, int>
+            {
+                { PrizeType.Key, _keysBalance },
+                { PrizeType.Coins, _coinsBalance },
+                { PrizeType.Gems, _gemsBalance },
+            };
         }
 
+        public int GetBalance(PrizeType prizeType)
+        {
+            if(_balances.TryGetValue(prizeType, out var balance))
+                return balance;
+
+            Debug.LogError($"[PlayerModel] GetBalance() No data for type: {prizeType}");
+            return 0;
+        }
+        
+        public void AddPrize(PrizeType prizeType, int amount)
+        {
+            Debug.Log($"[BoxingLootController] OnButtonClicked() type: {prizeType}, amount: {amount}");
+            switch (prizeType)
+            {
+                case PrizeType.Key:
+                    AddKeys(amount);
+                    break;
+                case PrizeType.Gems:
+                    AddGems(amount);
+                    break;
+                case PrizeType.Coins:
+                    AddCoins(amount);
+                    break;
+                default:
+                    Debug.LogError($"[PlayerModel] AddPrize() Not prize with Type: {prizeType}");
+                    break;
+            }
+        }
+        
         public void AddCoins(int coinsToAdd)
         {
-            Assert.IsTrue(_isInitialized);
             var newBalance = _coinsBalance + coinsToAdd;
-            SetCoinsBalance(newBalance);
-        }
-
-        public void WithdrawCoins(int coinsToTake)
-        {
-            Assert.IsTrue(_isInitialized);
-            var newBalance = _coinsBalance - coinsToTake;
             SetCoinsBalance(newBalance);
         }
         
         public void AddKeys(int coinsToAdd)
         {
-            Assert.IsTrue(_isInitialized);
             var newBalance = _keysBalance + coinsToAdd;
             SetKeysBalance(newBalance);
         }
 
         public void WithdrawKeys(int coinsToTake)
         {
-            Assert.IsTrue(_isInitialized);
             var newBalance = _keysBalance - coinsToTake;
             SetKeysBalance(newBalance);
         }
         
         public void AddGems(int gemsToAdd)
         {
-            Assert.IsTrue(_isInitialized);
             var newBalance = _gemsBalance + gemsToAdd;
-            SetGemsBalance(newBalance);
-        }
-
-        public void WithdrawGems(int gemsToTake)
-        {
-            Assert.IsTrue(_isInitialized);
-            var newBalance = _gemsBalance - gemsToTake;
             SetGemsBalance(newBalance);
         }
 
