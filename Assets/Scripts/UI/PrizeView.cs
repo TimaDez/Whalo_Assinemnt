@@ -1,0 +1,75 @@
+using System;
+using Cysharp.Threading.Tasks;
+using DataTypes;
+using Infrastructure;
+using Infrastructure.Networking;
+using Models;
+using Navigation;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace UI
+{
+    public class PrizeView : MonoBehaviour
+    {
+        #region Editor
+
+        [SerializeField] private Image _image;
+        [SerializeField] private TextMeshProUGUI  _text;
+
+        #endregion
+
+        #region Methods
+        
+        
+        public async void SetData(PrizeModel model)
+        {
+            _text.text = model.Amount.ToString();
+            _image.sprite = await GetImage(model);
+            gameObject.SetActive(false);
+           
+            // // Check
+            // if (SpriteLoader.IsCached(driveLink))
+            // {
+            //      /* already in RAM */
+            // }
+            //
+            // // Release all (e.g., on scene unload)
+            // SpriteLoader.ClearAll();
+
+        }
+
+        private async UniTask<Sprite> GetImage(PrizeModel model)
+        {
+            switch (model.Type)
+            {
+                case PrizeType.None:
+                    break;
+                case PrizeType.Key:
+                    return await SpriteLoader.GetSpriteAsync(NetworkNavigation.KEY_IMAGE_LINK, this.GetCancellationTokenOnDestroy());
+                case PrizeType.Gems:
+                    return await SpriteLoader.GetSpriteAsync(NetworkNavigation.ENERGY_IMAGE_LINK, this.GetCancellationTokenOnDestroy());
+                case PrizeType.Coins:
+                    return await SpriteLoader.GetSpriteAsync(NetworkNavigation.COINS_IMAGE_LINK, this.GetCancellationTokenOnDestroy());
+            }
+
+            Debug.LogError($"[PrizeView] GetImage() didn't find image for reward type: {model.Type}");
+            return null;
+        }
+        
+        public void SetPrize(int amount)
+        {
+            _image.sprite = Resources.Load<Sprite>("Sprites/UI/PrizeView/Image");
+            _text.text = $"{amount}";
+        }
+
+        public void OnButtonClicked()
+        {
+            Debug.Log($"[PrizeView] OnButtonClicked() ");
+        }
+        
+        #endregion
+
+    }
+}
