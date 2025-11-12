@@ -140,7 +140,6 @@ namespace Whalo.Controllers
                 await _boxes[index].Interact();
                 _viewsContainers[index].GetChild(0).gameObject.SetActive(true);
             }
-            
 
             var prize = _shuffledPrizes[index];
             await _lootBoxesView.FlyFrom(prize.Type, _viewsContainers[index], prize.Amount);

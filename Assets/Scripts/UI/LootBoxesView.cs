@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DataTypes;
-using DG.Tweening;
 using Infrastructure;
 using Models;
 using Navigation;
 using UI;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Whalo.UI
 {
@@ -22,6 +22,7 @@ namespace Whalo.UI
     {
         #region Editor
 
+        [SerializeField] private Transform _poolObjectsParent;
         [SerializeField] private FlyingResource _flyingResourcePrefab;
         
         [Header("Counters")]
@@ -43,10 +44,17 @@ namespace Whalo.UI
         private Sprite _keySprite;
         private Sprite _coinsSprite;
         private Sprite _energySprite;
+        private ObjectsPool<FlyingResource> _flyingResourcePool;
         private Dictionary<PrizeType, ResourceData> _resourceData;
+        
         #endregion
         
         #region Methods
+
+        private void Awake()
+        {
+            _flyingResourcePool = new ObjectsPool<FlyingResource>(_flyingResourcePrefab, _poolObjectsParent);
+        }
 
         public void Initialize(LevelModel levelModel, PlayerModel playerModel)
         {
@@ -128,9 +136,13 @@ namespace Whalo.UI
         
         private async UniTask FlyTo(Transform startPivot, Sprite sprite, Transform endPivot)
         {
-            var resource = Instantiate(_flyingResourcePrefab, startPivot);
-            resource.SetSprite(sprite);
-            await resource.FlyTo(endPivot);
+            // _flyingResourcePool.SetParent(startPivot);
+            // var res = _flyingResourcePool.GetItem();
+            // res.SetSprite(sprite);
+             var resource = Instantiate(_flyingResourcePrefab, startPivot);
+             resource.SetSprite(sprite);
+             await resource.FlyTo(endPivot);
+             //await res.FlyTo(endPivot);
         }
 
         private void OnDestroy()
