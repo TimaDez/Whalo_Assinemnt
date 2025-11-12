@@ -126,7 +126,7 @@ namespace Whalo.Controllers
             }
 
             await UniTask.WhenAll(tasks);
-            LoadingScreenLocator.LoadSceneAsync(ScenesNavigation.SUMMERY_SCREEN_NAME);
+            SceneManagementSystem.LoadSceneAsync(ScenesNavigation.SUMMERY_SCREEN_NAME);
         }
 
         private async UniTask OpenBoxFlow(int i)

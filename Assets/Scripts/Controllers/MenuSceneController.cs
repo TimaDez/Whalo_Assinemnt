@@ -62,7 +62,7 @@ namespace Whalo.Controllers
         {
             StartLoadingAnimation();
             await SpritesLoaderService.LoadSprites(_eventsPopups);
-            await LoadingScreenLocator.LoadSceneAsync(sceneName);
+            await SceneManagementSystem.LoadSceneAsync(sceneName);
         }
         
         private void StartLoadingAnimation()

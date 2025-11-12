@@ -8,6 +8,7 @@ using Models;
 using Navigation;
 using UI;
 using UnityEngine;
+using Whalo.Services;
 
 namespace Whalo.Controllers
 {
@@ -44,6 +45,8 @@ namespace Whalo.Controllers
             await SetImages();
             await AnimateCounters();
             await PlayParticleAsync(_particle);
+            await UniTask.WaitForSeconds(2f, cancellationToken: this.GetCancellationTokenOnDestroy());
+            await SceneManagementSystem.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
         }
 
         private async UniTask AnimateCounters()

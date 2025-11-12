@@ -72,7 +72,7 @@ namespace Whalo.Controllers
 
         public void OnBackButtonClicked()
         {
-            LoadingScreenLocator.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
+            SceneManagementSystem.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
         }
         #endregion
     }

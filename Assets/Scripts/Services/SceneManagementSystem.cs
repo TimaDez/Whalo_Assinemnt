@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace Whalo.Services
 {
-    public static class LoadingScreenLocator
+    public static class SceneManagementSystem
     {
         private static ILoadingScreen _service;
         public static async UniTask<ILoadingScreen> Get(string sceneName)
