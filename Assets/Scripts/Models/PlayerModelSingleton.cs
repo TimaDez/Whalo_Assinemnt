@@ -22,6 +22,16 @@ namespace Models
             DontDestroyOnLoad(gameObject);
             LoadFromPrefs();
         }
+        
+        public static PlayerModelSingleton EnsureInstance()
+        {
+            if (Instance != null)
+                return Instance;
+            
+            var go = new GameObject("[PlayerModelSingleton]");
+            return go.AddComponent<PlayerModelSingleton>();
+        }
+        
         #endregion
 
         #region Events

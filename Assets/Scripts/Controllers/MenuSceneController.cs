@@ -34,7 +34,6 @@ namespace Whalo.Controllers
 
         private void Awake()
         {
-            PlayerModelSingleton.Instance.AddCoins();
             _uiBlocker.SetActive(false);
             _loadingPanel.SetActive(false);
             CreateEventsList();
@@ -51,7 +50,7 @@ namespace Whalo.Controllers
         
         public void OnStartGameButtonClicked()
         {
-            
+            StartLoadingSequence(ScenesNavigation.GAME_PLAY_NAME).Forget();
         }
 
         public async void OnEventButtonClicked()

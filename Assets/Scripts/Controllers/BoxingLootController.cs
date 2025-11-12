@@ -3,10 +3,12 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Extension;
-using Models;   
+using Models;
+using Navigation;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using Whalo.Services;
 using Whalo.UI;
 
 namespace Whalo.Controllers
@@ -21,7 +23,7 @@ namespace Whalo.Controllers
         [SerializeField] private Button[] _boxButtons;
         
         [Header("Models")]
-        [SerializeField] private PlayerModel _playerModel;
+        //[SerializeField] private PlayerModel _playerModel;
         [SerializeField] private LevelModel _levelModel;
         
         #endregion
@@ -30,21 +32,25 @@ namespace Whalo.Controllers
 
         private int _clickedCount = 0;
         private List<PrizeModel> _shuffledPrizes;
-
+        private PlayerModelSingleton _modelSingleton;
+        
         #endregion
 
         #region Methods
 
         private void Awake()
         {
-            _lootBoxesView.Initialize(_levelModel, _playerModel);
+            _modelSingleton =  PlayerModelSingleton.Instance;
+            //_lootBoxesView.Initialize(_levelModel, _playerModel);
+            _lootBoxesView.Initialize(_levelModel);
         }
 
         private async void Start()
         {
             InitButtons();
             InitLevel();
-            _playerModel.Initialize(0, 0 ,_levelModel.KeyStarterAmount);
+            //_playerModel.Initialize(0, 0 ,_levelModel.KeyStarterAmount);
+            _modelSingleton.Initialize(0, 0, _levelModel.KeyStarterAmount);
             await _lootBoxesView.InitView();
         }
 
@@ -93,14 +99,13 @@ namespace Whalo.Controllers
             Debug.Log($"Button clicked: {index}");
 
             _boxButtons[index].interactable = false;
-            _playerModel.WithdrawKeys(1);
-            
-            // var prize = _shuffledPrizes[index];
-            // _playerModel.AddPrize(prize.Type, prize.Amount);
+            //_playerModel.WithdrawKeys(1);
+            _modelSingleton.WithdrawKeys(1);
             
             await OnBoxClickAnim(index, this.GetCancellationTokenOnDestroy());
 
-            if (_clickedCount == _boxButtons.Length || _playerModel.KeysBalance <= 0)
+            //if (_clickedCount == _boxButtons.Length || _playerModel.KeysBalance <= 0)
+            if (_clickedCount == _boxButtons.Length || _modelSingleton.KeysBalance <= 0)
             {
                 Debug.Log("ALL BUTTONS WERE CLICKED!");
                 await OnLevelEnd();
@@ -121,6 +126,7 @@ namespace Whalo.Controllers
             }
 
             await UniTask.WhenAll(tasks);
+            LoadingScreenLocator.LoadSceneAsync(ScenesNavigation.SUMMERY_SCREEN_NAME);
         }
 
         private async UniTask OpenBoxFlow(int i)
@@ -150,13 +156,15 @@ namespace Whalo.Controllers
 
             var prize = _shuffledPrizes[index];
             await _lootBoxesView.FlyFrom(prize.Type, _viewsContainers[index], prize.Amount);
-            _playerModel.AddPrize(prize.Type, prize.Amount);
+            //_playerModel.AddPrize(prize.Type, prize.Amount);
+            _modelSingleton.AddPrize(prize.Type, prize.Amount);
             await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
         }
         
         private void OnDisable()
         {
             AddListenerToButton(false);
+            _modelSingleton = null;
         }
 
         #endregion
