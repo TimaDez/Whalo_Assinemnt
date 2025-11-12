@@ -47,7 +47,7 @@ namespace Whalo.UI
         private ObjectsPool<FlyingResource> _flyingResourcePool;
         private Dictionary<PrizeType, ResourceData> _resourceData;
         
-        private PlayerModelSingleton _modelSingleton;
+        private PlayerModelSingleton _playerModel;
         
         #endregion
         
@@ -55,22 +55,17 @@ namespace Whalo.UI
 
         private void Awake()
         {
-            _modelSingleton = PlayerModelSingleton.Instance;
+            _playerModel = PlayerModelSingleton.Instance;
             _flyingResourcePool = new ObjectsPool<FlyingResource>(_flyingResourcePrefab, _poolObjectsParent);
         }
 
-        public void Initialize(LevelModel levelModel/*, PlayerModel playerModel*/)
+        public void Initialize(LevelModel levelModel)
         {
             _levelModel = levelModel;
-            //_playerModel = playerModel;
             
-            // _playerModel.CoinsBalanceChange += OnCoinsBalanceChange;
-            // _playerModel.GemsBalanceChange += OnGemsBalanceChange;
-            // _playerModel.KeysBalanceChange += OnKeysBalanceChange;
-            
-            _modelSingleton.CoinsBalanceChange += OnCoinsBalanceChange;
-            _modelSingleton.GemsBalanceChange += OnGemsBalanceChange;
-            _modelSingleton.KeysBalanceChange += OnKeysBalanceChange;
+            _playerModel.CoinsBalanceChange += OnCoinsBalanceChange;
+            _playerModel.GemsBalanceChange += OnGemsBalanceChange;
+            _playerModel.KeysBalanceChange += OnKeysBalanceChange;
         }
         
         public async UniTask InitView()
@@ -122,8 +117,7 @@ namespace Whalo.UI
                 remainder = amountToAdd % 10;
             }
         
-            //var balance = _playerModel.GetBalance(prizeType);
-            var balance = _modelSingleton.GetBalance(prizeType);
+            var balance = _playerModel.GetBalance(prizeType);
             var data = _resourceData[prizeType];
             
             var tasks = new List<UniTask>();
@@ -155,10 +149,10 @@ namespace Whalo.UI
             // _playerModel.GemsBalanceChange -= OnGemsBalanceChange;
             // _playerModel.KeysBalanceChange -= OnKeysBalanceChange;
 
-            _modelSingleton.CoinsBalanceChange -= OnCoinsBalanceChange;
-            _modelSingleton.GemsBalanceChange -= OnGemsBalanceChange;
-            _modelSingleton.KeysBalanceChange -= OnKeysBalanceChange;
-            _modelSingleton = null;
+            _playerModel.CoinsBalanceChange -= OnCoinsBalanceChange;
+            _playerModel.GemsBalanceChange -= OnGemsBalanceChange;
+            _playerModel.KeysBalanceChange -= OnKeysBalanceChange;
+            _playerModel = null;
             _flyingResourcePool.ClearAll();
         }
 

@@ -1,3 +1,4 @@
+using DataTypes;
 using Models;
 using TMPro;
 using UnityEngine;
@@ -9,11 +10,19 @@ namespace UI
     {
         #region Editor
 
+        [SerializeField] private PrizeType _prizeType;
         [SerializeField] private TextMeshProUGUI _amount;
         [SerializeField] private Image _image;
 
+
         #endregion
 
+        #region Properties
+
+        public PrizeType Type => _prizeType;
+
+        #endregion
+        
         #region Methods
 
         public void Init(Sprite sprite, int amount = 0)

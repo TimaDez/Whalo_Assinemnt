@@ -64,7 +64,7 @@ namespace Whalo.Controllers
                     continue;
 
                 var instance = Instantiate(popup.EventPopupPrefab, _mainPanel);
-                await instance.StartShowPopupSequence(popup.Url);
+                await instance.ShowPopupSequence(popup.Url);
 
                 // Destroy(instance.gameObject);
             }

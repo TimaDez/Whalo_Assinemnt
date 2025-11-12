@@ -15,7 +15,7 @@ namespace Whalo.UI
         
         #region Methods
 
-        public abstract UniTask StartShowPopupSequence(string url);
+        public abstract UniTask ShowPopupSequence(string url);
 
         #endregion
     }

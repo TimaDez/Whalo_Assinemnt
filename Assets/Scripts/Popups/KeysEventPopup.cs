@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure;
-using Navigation;
 using UnityEngine;
 
 namespace Whalo.UI
@@ -10,7 +9,7 @@ namespace Whalo.UI
     {
         #region Methods
         
-        public override async UniTask StartShowPopupSequence(string url)
+        public override async UniTask ShowPopupSequence(string url)
         {
             transform.localScale = Vector3.zero;
             gameObject.SetActive(true);
