@@ -17,10 +17,8 @@ namespace Whalo.Controllers
 
         [Header("Counters")]
         [SerializeField] private ViewCounter[] _counters;
-        [SerializeField] private ViewCounter _keyCounter;
-        [SerializeField] private ViewCounter _energyCounter;
-        [SerializeField] private ViewCounter _coinCounter;
-
+        [SerializeField] private ParticleSystem[] _particle;
+        
         #endregion
 
         #region Private Fields
@@ -44,7 +42,12 @@ namespace Whalo.Controllers
         private async UniTask StartAnim()
         {
             await SetImages();
+            await AnimateCounters();
+            await PlayParticleAsync(_particle);
+        }
 
+        private async UniTask AnimateCounters()
+        {
             var tasks = new List<UniTask>();
             foreach (PrizeType prize in Enum.GetValues(typeof(PrizeType)))
             {
@@ -62,7 +65,7 @@ namespace Whalo.Controllers
             
             await UniTask.WhenAll(tasks);
         }
-
+        
         private async UniTask SetImages()
         {
             var spriteMap = new Dictionary<PrizeType, Sprite>
@@ -101,6 +104,40 @@ namespace Whalo.Controllers
                 balance += nextAmount;
                 counter.SetAmount(balance);
             }
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f), cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+        
+        private async UniTask PlayParticleAsync(ParticleSystem[] systems, float delayBetweenStarts = 0.1f, bool delayFirst = false)
+        {
+            if (systems == null || systems.Length == 0)
+                return;
+
+            var tasks = new List<UniTask>(systems.Length);
+
+            for (int i = 0; i < systems.Length; i++)
+            {
+                var p = systems[i];
+                if (p == null)
+                    continue;
+
+                var startDelay = TimeSpan.FromSeconds((delayFirst ? (i + 1) : i) * delayBetweenStarts);
+                tasks.Add(LaunchParticle(p, startDelay));
+            }
+
+            await UniTask.WhenAll(tasks);
+        }
+        
+        private async UniTask LaunchParticle(ParticleSystem ps, TimeSpan delay)
+        {
+            var token = ps.gameObject.GetCancellationTokenOnDestroy();
+
+            if (delay > TimeSpan.Zero)
+                await UniTask.Delay(delay, cancellationToken: token);
+
+            ps.Play(true);
+
+            await UniTask.WaitUntil(() => !ps.IsAlive(true), cancellationToken: token);
         }
         #endregion
     }
