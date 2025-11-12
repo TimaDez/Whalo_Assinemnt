@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Models;
 using Navigation;
 using UnityEngine;
 using UnityEngine.UI;
-using Whalo.UI;
+using Whalo.Services;
 
 namespace Whalo.Controllers
 {
@@ -12,17 +15,19 @@ namespace Whalo.Controllers
     {
         #region Editor
 
+        [SerializeField] private Transform _mainPanel;
+        [SerializeField] private Transform _backButton;
         [SerializeField] private GameObject _uiBlocker;
         [SerializeField] private GameObject _loadingPanel;
         [SerializeField] private Image _loadingImage;
-        [SerializeField] private EventPopupBase _popupPrefab;
+        [SerializeField] private EventsPopupsModel _eventsPopupsModel;
 
         #endregion
         
         #region Private Fields
 
         private Tween _spin;
-        private Stack<string> _popupsStack =  new Stack<string>();
+        private readonly Stack<EventsPopupData> _popupsStack =  new();
 
         #endregion
 
@@ -32,29 +37,42 @@ namespace Whalo.Controllers
         {
             _uiBlocker.SetActive(false);
             _loadingPanel.SetActive(false);
+            _backButton.localScale = Vector3.zero;
             CreatePopupsStack();
+        }
+
+        private async void Start()
+        {
+            await ShowPopupsSequence();
+            _backButton.DOScale(Vector3.one, 0.35f).SetEase(Ease.OutBack);
         }
 
         private void CreatePopupsStack()
         {
-            _popupsStack.Push(NetworkNavigation.COINS_EVENT_POPUP_LINK);
-            _popupsStack.Push(NetworkNavigation.THREE_KEYS_POPUP_LINK);
+            var popups = _eventsPopupsModel.GetOrderedPopupsData();
+            foreach (var popup in popups)
+            {
+                _popupsStack.Push(popup);
+            }
         }
-
+        
         private async UniTask ShowPopupsSequence()
         {
-            var popupsCount = _popupsStack.Count - 1;
-            for (int i = 0; i < popupsCount; i++)
+            while (_popupsStack.TryPop(out var popup))
             {
-                if(_popupsStack.Count == 0)
-                    return;
+                if (popup == null || popup.EventPopupPrefab == null)
+                    continue;
 
-                if (_popupsStack.TryPop(out var popup))
-                {
-                    var p = Instantiate(_popupPrefab);
-                    await p.StartShowPopupSequence();
-                }
+                var instance = Instantiate(popup.EventPopupPrefab, _mainPanel);
+                await instance.StartShowPopupSequence(popup.Url);
+
+                // Destroy(instance.gameObject);
             }
+        }
+
+        public void OnBackButtonClicked()
+        {
+            LoadingScreenLocator.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
         }
         #endregion
     }

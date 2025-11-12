@@ -8,12 +8,14 @@ namespace Models
     [Serializable]
     public class EventsPopupData
     {
+        public string Name;
         public string Url;
+        public int Order;
         public EventPopupBase EventPopupPrefab;
     }
     
-    [CreateAssetMenu(menuName = "Models/EventsPopups",  fileName = "EventsPopups")]
-    public class EventsPopups : ScriptableObject
+    [CreateAssetMenu(menuName = "Models/Events Popups Model",  fileName = "EventsPopupsModel")]
+    public class EventsPopupsModel : ScriptableObject
     {
         #region Editor
 
@@ -29,12 +31,21 @@ namespace Models
         
         #region Methods
 
+        public List<EventsPopupData> GetOrderedPopupsData()
+        {
+            ValidatePopupsData();
+            var allPopups = new List<EventsPopupData>(_popupsDictionary.Values);
+            allPopups.Sort((a, b) => b.Order.CompareTo(a.Order));
+            
+            return allPopups;
+        }
+
         public EventsPopupData GetPopupData(string url)
         {
             ValidatePopupsData();
-            if (_popupsDictionary.TryGetValue(url, out var data))
-                return data;
-
+            if (_popupsDictionary.TryGetValue(url, out var popupData))
+                return popupData;
+            
             Debug.LogError($"[EventsPopups] GetPopupData() Didn't find popup for URL: {url}");
             return null;
         }

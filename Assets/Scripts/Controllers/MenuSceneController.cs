@@ -4,6 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure;
+using Models;
 using Navigation;
 using Services;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace Whalo.Controllers
 
         private void Awake()
         {
+            PlayerModelSingleton.Instance.AddCoins();
             _uiBlocker.SetActive(false);
             _loadingPanel.SetActive(false);
             CreateEventsList();
@@ -43,7 +45,7 @@ namespace Whalo.Controllers
             _eventsPopups = new List<string>
             {
                 NetworkNavigation.COINS_EVENT_POPUP_LINK,
-                NetworkNavigation.THREE_KEYS_POPUP_LINK
+                NetworkNavigation.KEYS_EVENT_POPUP_LINK
             };
         }
         
@@ -62,7 +64,6 @@ namespace Whalo.Controllers
             StartLoadingAnimation();
             await SpritesLoaderService.LoadSprites(_eventsPopups);
             await LoadingScreenLocator.LoadSceneAsync(sceneName);
-            //TODO: open new Events scene
         }
         
         private void StartLoadingAnimation()

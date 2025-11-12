@@ -13,7 +13,7 @@ namespace Infrastructure
         public static async UniTask LoadSpriteAsync(string url, CancellationToken token = default, float ppu = 100f)
         {
             if (string.IsNullOrWhiteSpace(url))
-                throw new System.ArgumentException("driveLink is null/empty.", nameof(url));
+                throw new System.ArgumentException("URL is null/empty.", nameof(url));
 
             if (_cache.TryGetValue(url, out var entry) && entry.sprite != null)
                 return;
@@ -27,7 +27,7 @@ namespace Infrastructure
         public static async UniTask<Sprite> GetSpriteAsync(string url, CancellationToken token = default, float ppu = 100f)
         {
             if (string.IsNullOrWhiteSpace(url))
-                throw new System.ArgumentException("driveLink is null/empty.", nameof(url));
+                throw new System.ArgumentException("URL is null/empty.", nameof(url));
 
             if (_cache.TryGetValue(url, out var entry) && entry.sprite != null)
                 return entry.sprite;

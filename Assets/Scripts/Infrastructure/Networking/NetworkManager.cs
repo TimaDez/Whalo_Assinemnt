@@ -12,7 +12,7 @@ namespace Infrastructure.Networking
     {
         #region Private members
         
-        private static readonly string CacheDir = Path.Combine(Application.persistentDataPath, "images_cache");
+        private static readonly string CacheDir = Path.Combine(Application.persistentDataPath, "downloaded_images");
 
         private static readonly Regex FileIdRegex = new Regex(
             @"(?:/d/([a-zA-Z0-9_-]{10,}))|(?:[?&]id=([a-zA-Z0-9_-]{10,}))",
@@ -34,7 +34,8 @@ namespace Infrastructure.Networking
                 throw new Exception("Could not extract Google Drive file ID from the provided link.");
 
             var cachePath = GetCachePath(fileId);
-
+            //Debug.Log($"[NetworkManager] GetTextureAsync() cachePath: {cachePath}");
+            
             if (File.Exists(cachePath))
             {
                 var bytes = await File.ReadAllBytesAsync(cachePath, token);

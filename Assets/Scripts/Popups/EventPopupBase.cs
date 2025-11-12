@@ -8,14 +8,14 @@ namespace Whalo.UI
     {
         #region Editor
 
-        [SerializeField] private Image _bgImage;
-        [SerializeField] private Button _xButton;
+        [SerializeField] protected Image _bgImage;
+        [SerializeField] protected Button _xButton;
 
         #endregion
         
         #region Methods
 
-        public abstract UniTask StartShowPopupSequence();
+        public abstract UniTask StartShowPopupSequence(string url);
 
         #endregion
     }
