@@ -121,8 +121,6 @@ namespace Whalo.UI
             var tasks = new List<UniTask>();
             for (var i = 0; i < numOfFliers; i++)
             {
-                //var flyingResource = GetItem();
-                
                 var nextAmount = i == numOfFliers - 1 ? amountPerFlier + remainder : amountPerFlier;
 
                 tasks.Add(FlyTo(startPivot, data.Sprite, data.EndPivot));
@@ -133,12 +131,13 @@ namespace Whalo.UI
         
             await UniTask.WhenAll(tasks);
         }
-        
+
         private async UniTask FlyTo(Transform startPivot, Sprite sprite, Transform endPivot)
         {
              var resource = _flyingResourcePool.GetItem();
              resource.transform.position = startPivot.position;
              resource.SetSprite(sprite);
+             
              await resource.FlyTo(endPivot);
         }
 

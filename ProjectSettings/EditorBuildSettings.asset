@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuSceenScene.unity
+    guid: 377c5e841962a024c82167ca96e8cef0
+  - enabled: 1
+    path: Assets/Scenes/EventsScreenScene.unity
+    guid: 102222f1dfe31624a82e37611afeafaa
+  - enabled: 1
+    path: Assets/Whalo/Unity Developer Exam/Scenes/UnityDeveloperExam.unity
+    guid: 6727db3c59a3d486483a866bef9260bb
   m_configObjects: {}

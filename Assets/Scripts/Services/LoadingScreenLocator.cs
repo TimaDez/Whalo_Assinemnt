@@ -1,21 +1,22 @@
 using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace Services
+namespace Whalo.Services
 {
-    public class LoadingScreenLocator
+    public static class LoadingScreenLocator
     {
         private static ILoadingScreen _service;
-        public static async UniTask<ILoadingScreen> Get()
+        public static async UniTask<ILoadingScreen> Get(string sceneName)
         {
             if (_service != null)
                 return _service;
             
-            await SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+            await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             var service = Object.FindObjectsOfType<MonoBehaviour>().OfType<ILoadingScreen>().FirstOrDefault();
             if (service == null)
             {
@@ -24,6 +25,11 @@ namespace Services
             
             _service = service;
             return _service;
+        }
+
+        public static async UniTask LoadSceneAsync(string sceneName)
+        {
+            await SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }

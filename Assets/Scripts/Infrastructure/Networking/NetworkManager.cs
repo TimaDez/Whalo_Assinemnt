@@ -21,10 +21,7 @@ namespace Infrastructure.Networking
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Returns a Texture2D from a Google Drive link (public file).
-        /// Caches to disk so next calls are instant. Throws on failure.
-        /// </summary>
+        
         public static async UniTask<Texture2D> GetTextureAsync(string link, CancellationToken token = default)
         {
             if (string.IsNullOrWhiteSpace(link))
@@ -38,18 +35,15 @@ namespace Infrastructure.Networking
 
             var cachePath = GetCachePath(fileId);
 
-            // 1) Disk cache
             if (File.Exists(cachePath))
             {
                 var bytes = await File.ReadAllBytesAsync(cachePath, token);
                 return BytesToTexture(bytes);
             }
 
-            // 2) Download
             var url = $"https://drive.google.com/uc?export=download&id={fileId}";
             var bytesDownloaded = await DownloadBytesAsync(url, token);
 
-            // 3) Save cache (best-effort)
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(cachePath)!);
@@ -60,13 +54,9 @@ namespace Infrastructure.Networking
                 Debug.LogWarning($"[DriveImageLoader] Failed to write cache: {e.Message}");
             }
 
-            // 4) Decode
             return BytesToTexture(bytesDownloaded);
         }
 
-        /// <summary>
-        /// Convenience helper to get a Sprite (pivot center, pixelsPerUnit = 100).
-        /// </summary>
         public static async UniTask<Sprite> GetSpriteAsync(string link, CancellationToken token = default, float pixelsPerUnit = 100f)
         {
             var tex = await GetTextureAsync(link, token);
@@ -75,7 +65,6 @@ namespace Infrastructure.Networking
             return Sprite.Create(tex, rect, pivot, pixelsPerUnit);
         }
 
-        /// <summary>Deletes the cached file for this link (if exists).</summary>
         public static bool InvalidateCache(string link)
         {
             var id = ExtractFileId(link);
@@ -95,7 +84,6 @@ namespace Infrastructure.Networking
             var m = FileIdRegex.Match(link);
             if (!m.Success) return null;
 
-            // group1 = /d/{id}, group2 = ?id={id}
             return !string.IsNullOrEmpty(m.Groups[1].Value)
                 ? m.Groups[1].Value
                 : m.Groups[2].Value;
@@ -109,7 +97,6 @@ namespace Infrastructure.Networking
 
         private static string GetCachePath(string fileId)
         {
-            // store original bytes as .bin (robust for png/jpg/webp)
             var safe = Sanitize(fileId);
             return Path.Combine(CacheDir, $"{safe}.bin");
         }

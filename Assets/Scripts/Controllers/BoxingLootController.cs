@@ -53,6 +53,12 @@ namespace Whalo.Controllers
             AddListenerToButton(true);
         }
 
+        private void SubsribeEvents()
+        {
+            
+        }
+        
+        
         private void AddListenerToButton(bool add)
         {
             var count = _boxButtons.Length;
@@ -127,6 +133,7 @@ namespace Whalo.Controllers
             await tr.DOScale(Vector3.one, 0.2f).AsyncWaitForCompletion();
         }
         
+        //create rewardanimation syxsvens Execute
         private async UniTask OnBoxClickAnim(int index, CancellationToken token)
         {
             //TODO: Animate

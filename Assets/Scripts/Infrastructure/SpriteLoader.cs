@@ -10,26 +10,52 @@ namespace Infrastructure
     {
         private static readonly Dictionary<string, (Texture2D tex, Sprite sprite)> _cache = new();
 
-        public static async UniTask<Sprite> GetSpriteAsync(string driveLink, CancellationToken token = default, float ppu = 100f)
+        public static async UniTask LoadSpriteAsync(string url, CancellationToken token = default, float ppu = 100f)
         {
-            if (string.IsNullOrWhiteSpace(driveLink))
-                throw new System.ArgumentException("driveLink is null/empty.", nameof(driveLink));
+            if (string.IsNullOrWhiteSpace(url))
+                throw new System.ArgumentException("driveLink is null/empty.", nameof(url));
 
-            if (_cache.TryGetValue(driveLink, out var entry) && entry.sprite != null)
+            if (_cache.TryGetValue(url, out var entry) && entry.sprite != null)
+                return;
+
+            var tex = await NetworkManager.GetTextureAsync(url, token);
+            
+            var sprite = CreateSprite(tex, ppu);
+            _cache[url] = (tex, sprite);
+        } 
+        
+        public static async UniTask<Sprite> GetSpriteAsync(string url, CancellationToken token = default, float ppu = 100f)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new System.ArgumentException("driveLink is null/empty.", nameof(url));
+
+            if (_cache.TryGetValue(url, out var entry) && entry.sprite != null)
                 return entry.sprite;
 
-            var tex = await NetworkManager.GetTextureAsync(driveLink, token);
+            var tex = await NetworkManager.GetTextureAsync(url, token);
 
-            var rect = new Rect(0, 0, tex.width, tex.height);
-            var sprite = Sprite.Create(tex, rect, new Vector2(0.5f, 0.5f), ppu);
-            _cache[driveLink] = (tex, sprite);
+            return GetSprite(url, tex, ppu);
+        }
+
+        private static Sprite GetSprite(string url, Texture2D tex, float ppu)
+        {
+            var sprite = CreateSprite(tex, ppu);
+            _cache[url] = (tex, sprite);
+            
             return sprite;
         }
 
-        public static bool IsCached(string driveLink)
+        private static Sprite CreateSprite(Texture2D tex, float ppu)
         {
-            return !string.IsNullOrWhiteSpace(driveLink)
-                   && _cache.TryGetValue(driveLink, out var entry)
+            var rect = new Rect(0, 0, tex.width, tex.height);
+            var sprite = Sprite.Create(tex, rect, new Vector2(0.5f, 0.5f), ppu);
+            return sprite;
+        }
+        
+        public static bool IsCached(string url)
+        {
+            return !string.IsNullOrWhiteSpace(url)
+                   && _cache.TryGetValue(url, out var entry)
                    && entry.sprite != null;
         }
 
