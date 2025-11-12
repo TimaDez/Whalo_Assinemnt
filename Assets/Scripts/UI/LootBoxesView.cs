@@ -136,13 +136,10 @@ namespace Whalo.UI
         
         private async UniTask FlyTo(Transform startPivot, Sprite sprite, Transform endPivot)
         {
-            // _flyingResourcePool.SetParent(startPivot);
-            // var res = _flyingResourcePool.GetItem();
-            // res.SetSprite(sprite);
-             var resource = Instantiate(_flyingResourcePrefab, startPivot);
+             var resource = _flyingResourcePool.GetItem();
+             resource.transform.position = startPivot.position;
              resource.SetSprite(sprite);
              await resource.FlyTo(endPivot);
-             //await res.FlyTo(endPivot);
         }
 
         private void OnDestroy()
@@ -150,6 +147,8 @@ namespace Whalo.UI
             _playerModel.CoinsBalanceChange -= OnCoinsBalanceChange;
             _playerModel.GemsBalanceChange -= OnGemsBalanceChange;
             _playerModel.KeysBalanceChange -= OnKeysBalanceChange;
+
+            _flyingResourcePool.ClearAll();
         }
 
         #endregion

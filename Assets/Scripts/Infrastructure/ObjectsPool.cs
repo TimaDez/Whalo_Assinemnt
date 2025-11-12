@@ -46,6 +46,11 @@ namespace Infrastructure
         {
             _parent = parent;
         }
+        
+        public void ClearAll()
+        {
+            _objectsPool.Clear();
+        }
     }
 
     public class ObjectsPoolsFactory : MonoBehaviour
