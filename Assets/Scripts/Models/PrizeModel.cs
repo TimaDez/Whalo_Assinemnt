@@ -1,9 +1,8 @@
-using System;
 using DataTypes;
-using UI;
 using UnityEngine;
+using Whalo.UI;
 
-namespace Models
+namespace Whalo.Models
 {
     [CreateAssetMenu(menuName = "Models/Prize", fileName = "PrizeModel")]
     public class PrizeModel : ScriptableObject

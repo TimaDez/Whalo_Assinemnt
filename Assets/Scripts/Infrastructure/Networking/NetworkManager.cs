@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Infrastructure.Networking
+namespace Whalo.Infrastructure.Networking
 {
     public static class NetworkManager
     {
@@ -34,7 +34,7 @@ namespace Infrastructure.Networking
                 throw new Exception("Could not extract Google Drive file ID from the provided link.");
 
             var cachePath = GetCachePath(fileId);
-            //Debug.Log($"[NetworkManager] GetTextureAsync() cachePath: {cachePath}");
+            Debug.Log($"[NetworkManager] GetTextureAsync() cachePath: {cachePath}");
             
             if (File.Exists(cachePath))
             {
@@ -56,28 +56,6 @@ namespace Infrastructure.Networking
             }
 
             return BytesToTexture(bytesDownloaded);
-        }
-
-        public static async UniTask<Sprite> GetSpriteAsync(string link, CancellationToken token = default, float pixelsPerUnit = 100f)
-        {
-            var tex = await GetTextureAsync(link, token);
-            var rect = new Rect(0, 0, tex.width, tex.height);
-            var pivot = new Vector2(0.5f, 0.5f);
-            return Sprite.Create(tex, rect, pivot, pixelsPerUnit);
-        }
-
-        public static bool InvalidateCache(string link)
-        {
-            var id = ExtractFileId(link);
-            if (string.IsNullOrEmpty(id))
-                return false;
-
-            var path = GetCachePath(id);
-            if (!File.Exists(path))
-                return false;
-            
-            File.Delete(path);
-            return true;
         }
 
         private static string ExtractFileId(string link)

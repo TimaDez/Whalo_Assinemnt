@@ -1,8 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Models;
-using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Whalo.UI;

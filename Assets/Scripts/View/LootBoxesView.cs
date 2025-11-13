@@ -1,19 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DataTypes;
-using Extension;
 using Infrastructure;
 using Models;
 using Navigation;
-using UI;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
-using Whalo.Services;
+using Whalo.Models;
 using Whalo.View;
 
 namespace Whalo.UI

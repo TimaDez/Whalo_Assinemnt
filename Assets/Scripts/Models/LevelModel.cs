@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using Whalo.Models;
 
 namespace Models
 {

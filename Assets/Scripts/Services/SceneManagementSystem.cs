@@ -9,17 +9,13 @@ using Object = UnityEngine.Object;
 
 namespace Whalo.Services
 {
-    //public static class SceneManagementSystem<T> where T : MonoBehaviour
     public static class SceneManagementSystem
     {
         private static ILoadingScreen _service;
-        //private static T _service;
         private static readonly HashSet<string> _loadedScenes = new();
+        
         public static async UniTask<ILoadingScreen> Get(string sceneName)
         {
-            if (_service != null)
-                return _service;
-            
             await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             var service = Object.FindObjectsOfType<MonoBehaviour>().OfType<ILoadingScreen>().FirstOrDefault();
             if (service == null)
@@ -34,7 +30,17 @@ namespace Whalo.Services
 
         public static async UniTask LoadSceneAsync(string sceneName)
         {
+            _loadedScenes.Add(sceneName);
             await SceneManager.LoadSceneAsync(sceneName);
+        }
+
+        public static async UniTask UnloadSceneAsync(string sceneName)
+        {
+            if(_loadedScenes.TryGetValue(sceneName, out var scene))
+            {
+                await SceneManager.UnloadSceneAsync(scene);
+                _loadedScenes.Remove(scene);
+            }
         }
     }
 }

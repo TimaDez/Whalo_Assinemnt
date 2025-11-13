@@ -13,7 +13,7 @@ namespace Infrastructure
             foreach (var url in urlsToLoad)
             {
                 if(!SpriteLoader.IsCached(url))
-                    await SpriteLoader.LoadSpriteAsync(url);
+                    await SpriteLoader.LoadSpriteAsync(url, token);
             }
         }
 

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Infrastructure.Networking;
 using UnityEngine;
+using Whalo.Infrastructure.Networking;
 
 namespace Infrastructure
 {

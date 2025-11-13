@@ -9,6 +9,9 @@ namespace Models
     [CreateAssetMenu(menuName = "Models/Player Model", fileName = "Player Model")]
     public class PlayerModel : ScriptableObject
     {
+        /// <summary>
+        /// Can be used for local tests
+        /// </summary>
         #region Events
 
         public event Action<int, int> CoinsBalanceChange;
@@ -38,6 +41,7 @@ namespace Models
         private Dictionary<PrizeType, int> _balances;
 
         #endregion
+        
         #region Methods
 
         public void Initialize(int coinsBalance, int gemsBalance,  int keysBalance)

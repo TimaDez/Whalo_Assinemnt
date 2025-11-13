@@ -4,10 +4,9 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DataTypes;
 using Infrastructure;
-using Models;
 using Navigation;
-using UI;
 using UnityEngine;
+using Whalo.Models;
 using Whalo.Services;
 using Whalo.UI;
 
@@ -33,7 +32,7 @@ namespace Whalo.Controllers
 
         private void Awake()
         {
-            Models.PlayerModelSingleton.EnsureInstance();
+            Whalo.Models.PlayerModelSingleton.EnsureInstance();
             _playerModel = PlayerModelSingleton.Instance;
         }
 

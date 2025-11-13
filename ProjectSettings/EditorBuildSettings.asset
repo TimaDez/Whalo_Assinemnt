@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SummaryScreenScene.unity
     guid: bf0fd3f8bc47520468db8cca9bc6c7a6
+  - enabled: 1
+    path: Assets/Scenes/LoadingPopupsScreenScene.unity
+    guid: 8024765d906435141923d70e2371891f
+  - enabled: 1
+    path: Assets/Scenes/LoadingImagesScreenScene.unity
+    guid: 5dab15d280c1bf9458dea508e40f6c9a
   m_configObjects: {}

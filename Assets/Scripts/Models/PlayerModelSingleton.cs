@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DataTypes;
 using UnityEngine;
 
-namespace Models
+namespace Whalo.Models
 {
     public class PlayerModelSingleton : MonoBehaviour
     {

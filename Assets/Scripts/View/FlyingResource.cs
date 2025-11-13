@@ -14,12 +14,6 @@ namespace Whalo.UI
         
         #endregion
 
-        #region Propeties
-
-        public int Amount { get; private set; }
-        
-        #endregion
-
         public void SetSprite(Sprite sprite)
         {
             _image.sprite = sprite;

@@ -1,15 +1,15 @@
-using System;
+
 using Cysharp.Threading.Tasks;
 using DataTypes;
 using Infrastructure;
-using Infrastructure.Networking;
 using Models;
 using Navigation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Whalo.Models;
 
-namespace UI
+namespace Whalo.UI
 {
     public class PrizeView : MonoBehaviour
     {

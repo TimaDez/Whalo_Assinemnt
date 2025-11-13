@@ -4,6 +4,7 @@ using Extension;
 using Models;
 using Navigation;
 using UnityEngine;
+using Whalo.Models;
 using Whalo.Services;
 using Whalo.UI;
 
