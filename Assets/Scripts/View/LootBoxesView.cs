@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DataTypes;
+using Extension;
 using Infrastructure;
 using Models;
 using Navigation;
@@ -11,6 +13,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Whalo.Services;
 using Whalo.View;
 
 namespace Whalo.UI
@@ -24,8 +27,14 @@ namespace Whalo.UI
     
     public class LootBoxesView : MonoBehaviour
     {
-        #region Editor
+        #region Events
 
+        public event Action<int> OnButtonClickedEvent;
+
+        #endregion
+        
+        #region Editor
+        [SerializeField] private GameObject _uiBlocker;
         [SerializeField] private Transform _poolObjectsParent;
         [SerializeField] private FlyingResource _flyingResourcePrefab;
         
@@ -41,9 +50,6 @@ namespace Whalo.UI
         [SerializeField] private Transform _coinPivot;
         
         [SerializeField] private LootBoxData[] _boxesData;
-        [SerializeField] private LootBox[] _boxes;
-        [SerializeField] private Transform[] _viewsContainers;
-        [SerializeField] private Button[] _boxButtons;
         
         #endregion
 
@@ -57,6 +63,7 @@ namespace Whalo.UI
         private Dictionary<PrizeType, ResourceData> _resourcesData;
         
         private PlayerModelSingleton _playerModel;
+        private List<PrizeModel> _shuffledPrizes;
         
         #endregion
         
@@ -64,16 +71,56 @@ namespace Whalo.UI
 
         private void Awake()
         {
+            _uiBlocker.SetActive(false);
+            //For debug
             var instance = Models.PlayerModelSingleton.EnsureInstance();
             _playerModel = instance;
-            //_playerModel = PlayerModelSingleton.Instance;
+            
             _flyingResourcePool = new ObjectsPool<FlyingResource>(_flyingResourcePrefab, _poolObjectsParent);
+            SubscribeBoxButtons();
+            SubscribeModelEvens();
         }
 
-        public void Initialize(LevelModel levelModel)
+        public void Initialize(LevelModel levelModel, List<PrizeModel> shuffledPrizes)
         {
             _levelModel = levelModel;
-            SubscribeModelEvens();
+            _shuffledPrizes = shuffledPrizes;
+            CreateCountersView();
+        }
+
+        private async UniTaskVoid OnButtonClicked(int index)
+        {
+            if (_boxesData[index].IsOpen)
+                return;
+            
+            OnButtonClickedEvent?.Invoke(index);
+        }
+        
+        public async UniTask OnBoxClickAnimFlow(int index, CancellationToken token)
+        {
+            _uiBlocker.SetActive(true);
+            await _boxesData[index].AnimateBoxOnOpen();
+            
+            var prize = _shuffledPrizes[index];
+            await FlyResource(prize.Type, _boxesData[index].PrizeContainer, prize.Amount);
+            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
+            
+            _uiBlocker.SetActive(false);
+        }
+        
+        public async UniTask OnLevelEnd()
+        {
+            var tasks = new List<UniTask>();
+
+            foreach (var box in _boxesData)
+            {
+                if (box.IsOpen)
+                    continue;
+
+                tasks.Add(box.AnimateBoxOnOpen());
+            }
+
+            await UniTask.WhenAll(tasks);
         }
         
         public async UniTask InitView()
@@ -98,6 +145,16 @@ namespace Whalo.UI
             };
         }
         
+        private void CreateCountersView()
+        {
+            for (int i = 0; i < _shuffledPrizes.Count; i++)
+            {
+                var prize = Instantiate(_shuffledPrizes[i].PrizeViewPrefab, _boxesData[i].PrizeContainer);
+                prize.SetData(_shuffledPrizes[i]);
+                _boxesData[i].SetContainerView(prize);
+            }
+        }
+        
         private void OnKeysBalanceChange(int oldBalance, int newGemsBalance)
         {
             _key.SetAmount(newGemsBalance);
@@ -113,7 +170,7 @@ namespace Whalo.UI
             _coin.SetAmount(newGemsBalance);
         }
 
-        public async UniTask FlyFrom(PrizeType prizeType, Transform startPivot, int amountToAdd)
+        public async UniTask FlyResource(PrizeType prizeType, Transform startPivot, int amountToAdd)
         {
             var numOfFliers = amountToAdd;
             var amountPerFlier = 1;
@@ -150,7 +207,25 @@ namespace Whalo.UI
              
              await resource.FlyTo(endPivot);
         }
-
+        
+        private void SubscribeBoxButtons()
+        {
+            for (var i = 0; i < _boxesData.Length; i++)
+            {
+                var index = i;
+                _boxesData[i].Button.onClick.AddListener(() => OnButtonClicked(index).Forget());
+            }
+        }
+        
+        private void UnsubscribeBoxButtons()
+        {
+            for (var i = 0; i < _boxesData.Length; i++)
+            {
+                var index = i;
+                _boxesData[i].Button.onClick.RemoveListener(() => OnButtonClicked(index).Forget());
+            }
+        }
+        
         private void SubscribeModelEvens()
         {
             _playerModel.CoinsBalanceChange += OnCoinsBalanceChange;
@@ -168,6 +243,7 @@ namespace Whalo.UI
         private void OnDestroy()
         {
             UnsubscribeModelEvens();
+            UnsubscribeBoxButtons();
             _playerModel = null;
             _flyingResourcePool.ClearAll();
         }

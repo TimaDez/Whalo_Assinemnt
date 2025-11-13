@@ -27,16 +27,6 @@ namespace UI
             _text.text = model.Amount.ToString();
             _image.sprite = await GetImage(model);
             gameObject.SetActive(false);
-           
-            // // Check
-            // if (SpriteLoader.IsCached(driveLink))
-            // {
-            //      /* already in RAM */
-            // }
-            //
-            // // Release all (e.g., on scene unload)
-            // SpriteLoader.ClearAll();
-
         }
 
         private async UniTask<Sprite> GetImage(PrizeModel model)
@@ -55,11 +45,6 @@ namespace UI
 
             Debug.LogError($"[PrizeView] GetImage() didn't find image for reward type: {model.Type}");
             return null;
-        }
-        
-        public void OnButtonClicked()
-        {
-            Debug.Log($"[PrizeView] OnButtonClicked() ");
         }
         
         #endregion

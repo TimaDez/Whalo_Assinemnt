@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bee0367a01f43b499af462671767d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiBlocker: {fileID: 1100238677}
   _poolObjectsParent: {fileID: 1123026899}
   _flyingResourcePrefab: {fileID: 5482300025195904795, guid: fae34e477b3148045a2d3d4f8d2f7345, type: 3}
   _key: {fileID: 4394492473241018121}
@@ -264,45 +265,42 @@ MonoBehaviour:
   _energyPivot: {fileID: 2146084653}
   _coinPivot: {fileID: 1024552038}
   _boxesData:
-  - _lootBoxDoor: {fileID: 3886305071042661941}
+  - _lootBox: {fileID: 2127026935922911337}
+    _lootBoxDoor: {fileID: 9157622700949796398}
     _prizeContainer: {fileID: 1889419110}
-    _counterView: {fileID: 0}
     _button: {fileID: 3236537433271412977}
-  - _lootBoxDoor: {fileID: 3886305072617227410}
+  - _lootBox: {fileID: 2127026937027453646}
+    _lootBoxDoor: {fileID: 9157622699978161289}
     _prizeContainer: {fileID: 967229407}
-    _counterView: {fileID: 0}
     _button: {fileID: 6327687159482934240}
-  - _lootBoxDoor: {fileID: 3886305070570070067}
+  - _lootBox: {fileID: 2127026936389797487}
+    _lootBoxDoor: {fileID: 9157622701421402152}
     _prizeContainer: {fileID: 1031032084}
-    _counterView: {fileID: 0}
     _button: {fileID: 1571893600391097161}
-  - _lootBoxDoor: {fileID: 3886305072225439539}
+  - _lootBox: {fileID: 2127026936903936367}
+    _lootBoxDoor: {fileID: 9157622699851101992}
     _prizeContainer: {fileID: 1382316403}
-    _counterView: {fileID: 0}
     _button: {fileID: 3929503460545294201}
-  - _lootBoxDoor: {fileID: 1193177080872158611}
+  - _lootBox: {fileID: 4099786793956058063}
+    _lootBoxDoor: {fileID: 6518820510567218568}
     _prizeContainer: {fileID: 1295600383}
-    _counterView: {fileID: 0}
     _button: {fileID: 4467441300447086044}
-  - _lootBoxDoor: {fileID: 3886305072421090658}
+  - _lootBox: {fileID: 2127026937231987518}
+    _lootBoxDoor: {fileID: 9157622700176526713}
     _prizeContainer: {fileID: 3631390912683525376}
-    _counterView: {fileID: 0}
     _button: {fileID: 6008093261538624119}
-  - _lootBoxDoor: {fileID: 3886305072051188888}
+  - _lootBox: {fileID: 2127026937602478788}
+    _lootBoxDoor: {fileID: 9157622700478205059}
     _prizeContainer: {fileID: 2138838460}
-    _counterView: {fileID: 0}
     _button: {fileID: 2928651359009086513}
-  - _lootBoxDoor: {fileID: 3886305070547450190}
+  - _lootBox: {fileID: 2127026936433925906}
+    _lootBoxDoor: {fileID: 9157622701528039765}
     _prizeContainer: {fileID: 1400859700}
-    _counterView: {fileID: 0}
     _button: {fileID: 8208026888047995583}
-  - _lootBoxDoor: {fileID: 3886305071569416370}
+  - _lootBox: {fileID: 2127026935944107758}
+    _lootBoxDoor: {fileID: 9157622701045041321}
     _prizeContainer: {fileID: 62284040}
-    _counterView: {fileID: 0}
     _button: {fileID: 3151480151213025770}
-  _boxes: []
-  _viewsContainers: []
-  _boxButtons: []
 --- !u!4 &339918557
 Transform:
   m_ObjectHideFlags: 0
@@ -409,6 +407,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1100238677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100238678}
+  - component: {fileID: 1100238680}
+  - component: {fileID: 1100238679}
+  m_Layer: 10
+  m_Name: UiBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1100238678
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100238677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8713984028622220480}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1100238679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100238677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1100238680
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100238677}
+  m_CullTransparentMesh: 1
 --- !u!1 &1110200214
 GameObject:
   m_ObjectHideFlags: 0
@@ -7234,6 +7307,7 @@ RectTransform:
   - {fileID: 1277421595}
   - {fileID: 829144566}
   - {fileID: 1123026899}
+  - {fileID: 1100238678}
   m_Father: {fileID: 7059294247649632273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
