@@ -39,6 +39,11 @@ namespace Whalo.Controllers
             CreateEventsList();
         }
 
+        private void Start()
+        {
+            Models.PlayerModelSingleton.EnsureInstance();
+        }
+
         private void CreateEventsList()
         {
             _eventsPopups = new List<string>

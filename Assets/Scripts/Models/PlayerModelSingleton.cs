@@ -8,6 +8,7 @@ namespace Models
     public class PlayerModelSingleton : MonoBehaviour
     {
         #region Singleton
+        
         public static PlayerModelSingleton Instance { get; private set; }
 
         private void Awake()
@@ -35,31 +36,40 @@ namespace Models
         #endregion
 
         #region Events
+        
         public event Action<int, int> CoinsBalanceChange;
         public event Action<int, int> GemsBalanceChange;
         public event Action<int, int> KeysBalanceChange;
+        
         #endregion
 
         #region Private Fields
+        
         private int _coinsBalance;
         private int _gemsBalance;
         private int _keysBalance;
         private Dictionary<PrizeType, int> _balances;
+        
         #endregion
 
         #region Properties
+        
         public int CoinsBalance => _coinsBalance;
         public int GemsBalance => _gemsBalance;
         public int KeysBalance => _keysBalance;
+        
         #endregion
 
         #region Constants
+        
         private const string COINS_KEY = "Player_Coins";
         private const string GEMS_KEY  = "Player_Gems";
         private const string KEYS_KEY  = "Player_Keys";
+        
         #endregion
 
         #region Public Methods
+        
         public void Initialize(int coins, int gems, int keys)
         {
             _coinsBalance = coins;
@@ -99,9 +109,11 @@ namespace Models
         public void AddKeys(int keysToAdd)   => SetKeysBalance(_keysBalance + keysToAdd);
         public void WithdrawKeys(int keys)   => SetKeysBalance(_keysBalance - keys);
         public void AddGems(int gemsToAdd)   => SetGemsBalance(_gemsBalance + gemsToAdd);
+        
         #endregion
 
         #region Private Setters
+        
         private void SetCoinsBalance(int newValue)
         {
             var old = _coinsBalance;
@@ -140,6 +152,7 @@ namespace Models
         #endregion
 
         #region Persistence
+        
         private void SaveToPrefs()
         {
             PlayerPrefs.SetInt(COINS_KEY, _coinsBalance);
@@ -169,6 +182,7 @@ namespace Models
             PlayerPrefs.DeleteKey(KEYS_KEY);
             PlayerPrefs.Save();
         }
+        
         #endregion
     }
 }

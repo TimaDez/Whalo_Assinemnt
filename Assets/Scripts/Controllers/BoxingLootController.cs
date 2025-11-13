@@ -99,12 +99,10 @@ namespace Whalo.Controllers
             Debug.Log($"Button clicked: {index}");
 
             _boxButtons[index].interactable = false;
-            //_playerModel.WithdrawKeys(1);
             _modelSingleton.WithdrawKeys(1);
             
             await OnBoxClickAnim(index, this.GetCancellationTokenOnDestroy());
 
-            //if (_clickedCount == _boxButtons.Length || _playerModel.KeysBalance <= 0)
             if (_clickedCount == _boxButtons.Length || _modelSingleton.KeysBalance <= 0)
             {
                 Debug.Log("ALL BUTTONS WERE CLICKED!");

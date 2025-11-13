@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using Models;
 using Navigation;
 using UnityEngine;
-using UnityEngine.UI;
 using Whalo.Services;
 
 namespace Whalo.Controllers
@@ -16,17 +12,12 @@ namespace Whalo.Controllers
         #region Editor
 
         [SerializeField] private Transform _mainPanel;
-        [SerializeField] private Transform _backButton;
-        [SerializeField] private GameObject _uiBlocker;
-        [SerializeField] private GameObject _loadingPanel;
-        [SerializeField] private Image _loadingImage;
         [SerializeField] private EventsPopupsModel _eventsPopupsModel;
 
         #endregion
         
         #region Private Fields
 
-        private Tween _spin;
         private readonly Stack<EventsPopupData> _popupsStack =  new();
 
         #endregion
@@ -35,19 +26,17 @@ namespace Whalo.Controllers
 
         private void Awake()
         {
-            _uiBlocker.SetActive(false);
-            _loadingPanel.SetActive(false);
-            _backButton.localScale = Vector3.zero;
-            CreatePopupsStack();
+            CreatePopupsStackByOrder();
         }
 
         private async void Start()
         {
             await ShowPopupsSequence();
-            _backButton.DOScale(Vector3.one, 0.35f).SetEase(Ease.OutBack);
+            await UniTask.WaitForSeconds(0.2f, cancellationToken: this.GetCancellationTokenOnDestroy());
+            await SceneManagementSystem.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
         }
 
-        private void CreatePopupsStack()
+        private void CreatePopupsStackByOrder()
         {
             var popups = _eventsPopupsModel.GetOrderedPopupsData();
             foreach (var popup in popups)
@@ -70,10 +59,6 @@ namespace Whalo.Controllers
             }
         }
 
-        public void OnBackButtonClicked()
-        {
-            SceneManagementSystem.LoadSceneAsync(ScenesNavigation.MENU_SCENE_NAME);
-        }
         #endregion
     }
 }

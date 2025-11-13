@@ -27,6 +27,7 @@ namespace Whalo.Controllers
         private PlayerModelSingleton _playerModel;
         
         #endregion
+        
         #region Methods
 
         private void Awake()
