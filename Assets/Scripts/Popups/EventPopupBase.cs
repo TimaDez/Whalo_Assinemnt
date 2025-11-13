@@ -1,10 +1,14 @@
 using Cysharp.Threading.Tasks;
+using DataTypes;
+using DG.Tweening;
+using Infrastructure;
 using UnityEngine;
 using UnityEngine.UI;
+using Whalo.Infrastructure;
 
 namespace Whalo.UI
 {
-    public abstract class EventPopupBase : MonoBehaviour
+    public class EventPopupBase : MonoBehaviour
     {
         #region Editor
 
@@ -14,8 +18,31 @@ namespace Whalo.UI
         #endregion
         
         #region Methods
+        
+        public async UniTask ShowPopupSequence(string url)
+        {
+            transform.localScale = Vector3.zero;
+            gameObject.SetActive(true);
+            _bgImage.sprite = await SpriteLoader.GetSpriteAsync(url);
+            await ShowPopup();
+            await _xButton.OnClickAsync();
+            SoundManager.Instance.PlaySFX(SfxType.ButtonClick);
+            await HidePopup();
+        }
 
-        public abstract UniTask ShowPopupSequence(string url);
+        private async UniTask ShowPopup()
+        {
+            transform.localScale = Vector3.zero;
+            gameObject.SetActive(true);
+
+            await transform.DOScale(Vector3.one, 0.35f).SetEase(Ease.OutBack).ToUniTask(cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+
+        private async UniTask HidePopup()
+        {
+            await transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).ToUniTask(cancellationToken: this.GetCancellationTokenOnDestroy());
+            gameObject.SetActive(false);
+        }
 
         #endregion
     }
