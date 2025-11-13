@@ -33,8 +33,6 @@ namespace Whalo.UI
         {
             switch (model.Type)
             {
-                case PrizeType.None:
-                    break;
                 case PrizeType.Key:
                     return await SpriteLoader.GetSpriteAsync(NetworkNavigation.KEY_IMAGE_LINK, this.GetCancellationTokenOnDestroy());
                 case PrizeType.Gems:

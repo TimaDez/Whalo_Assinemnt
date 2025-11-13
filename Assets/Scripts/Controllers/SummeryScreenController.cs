@@ -6,6 +6,7 @@ using DataTypes;
 using Infrastructure;
 using Navigation;
 using UnityEngine;
+using Whalo.Infrastructure;
 using Whalo.Models;
 using Whalo.Services;
 using Whalo.UI;
@@ -32,7 +33,7 @@ namespace Whalo.Controllers
 
         private void Awake()
         {
-            Whalo.Models.PlayerModelSingleton.EnsureInstance();
+            PlayerModelSingleton.EnsureInstance();
             _playerModel = PlayerModelSingleton.Instance;
         }
 
@@ -44,6 +45,8 @@ namespace Whalo.Controllers
         private async UniTask StartAnim()
         {
             await SetImages();
+            
+            SoundManager.Instance.PlaySFX(SfxType.Celebration);
             await AnimateCounters();
             await PlayParticleAsync(_particle);
             await UniTask.WaitForSeconds(2f, cancellationToken: this.GetCancellationTokenOnDestroy());

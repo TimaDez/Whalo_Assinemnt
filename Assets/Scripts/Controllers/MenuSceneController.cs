@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DataTypes;
 using DG.Tweening;
 using Infrastructure;
 using Models;
@@ -9,6 +10,7 @@ using Navigation;
 using Services;
 using UnityEngine;
 using UnityEngine.UI;
+using Whalo.Infrastructure;
 using Whalo.Services;
 
 namespace Whalo.Controllers
@@ -46,6 +48,7 @@ namespace Whalo.Controllers
 
         private async UniTaskVoid StartLoadingSequence(string sceneName, string loadingSceneName)
         {
+            SoundManager.Instance.PlaySFX(SfxType.ButtonClick);
             _uiBlocker.SetActive(true);
             var service = await SceneManagementSystem.Get(loadingSceneName);
             await service.Load();
@@ -54,6 +57,7 @@ namespace Whalo.Controllers
         
         public void OnQuitButtonClicked()
         {
+            SoundManager.Instance.PlaySFX(SfxType.ButtonClick);
             Application.Quit();
         }
 

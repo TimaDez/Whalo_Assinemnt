@@ -34,7 +34,7 @@ namespace Whalo.Infrastructure.Networking
                 throw new Exception("Could not extract Google Drive file ID from the provided link.");
 
             var cachePath = GetCachePath(fileId);
-            Debug.Log($"[NetworkManager] GetTextureAsync() cachePath: {cachePath}");
+            //Debug.Log($"[NetworkManager] GetTextureAsync() cachePath: {cachePath}");
             
             if (File.Exists(cachePath))
             {

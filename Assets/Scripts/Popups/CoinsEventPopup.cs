@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
+using DataTypes;
 using DG.Tweening;
 using Infrastructure;
 using UnityEngine;
+using Whalo.Infrastructure;
 
 namespace Whalo.UI
 {
@@ -16,6 +18,7 @@ namespace Whalo.UI
             _bgImage.sprite = await SpriteLoader.GetSpriteAsync(url);
             await ShowPopup();
             await _xButton.OnClickAsync();
+            SoundManager.Instance.PlaySFX(SfxType.ButtonClick);
             await HidePopup();
         }
 

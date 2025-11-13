@@ -8,6 +8,7 @@ using Models;
 using Navigation;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Whalo.Infrastructure;
 using Whalo.Models;
 using Whalo.View;
 
@@ -88,6 +89,7 @@ namespace Whalo.UI
             if (_boxesData[index].IsOpen)
                 return;
             
+            SoundManager.Instance.PlaySFX(SfxType.ButtonClick);
             OnButtonClickedEvent?.Invoke(index);
         }
         

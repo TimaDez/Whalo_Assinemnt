@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 553086660}
   - component: {fileID: 553086659}
   - component: {fileID: 553086658}
+  - component: {fileID: 553086662}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -467,6 +468,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!81 &553086662
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553086657}
+  m_Enabled: 1
 --- !u!1 &874555844
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +554,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1105944087}
   - component: {fileID: 1105944086}
-  - component: {fileID: 1105944085}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -553,14 +561,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1105944085
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105944084}
-  m_Enabled: 1
 --- !u!20 &1105944086
 Camera:
   m_ObjectHideFlags: 0

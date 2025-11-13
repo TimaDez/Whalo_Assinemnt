@@ -10,7 +10,7 @@ using Whalo.UI;
 
 namespace Whalo.Controllers
 {
-    public class BoxingLootController : MonoBehaviour
+    public class BoxesLootController : MonoBehaviour
     {
         #region Editor
 

@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
+using DataTypes;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Whalo.Infrastructure;
 
 namespace Whalo.UI
 {
@@ -24,6 +26,7 @@ namespace Whalo.UI
             transform.DOMoveX(targetView.position.x, _flyDuration).ToUniTask(cancellationToken: this.GetCancellationTokenOnDestroy());
             await transform.DOMoveY(targetView.position.y, _flyDuration).SetEase(Ease.InCubic).ToUniTask(cancellationToken: this.GetCancellationTokenOnDestroy());
             
+            SoundManager.Instance.PlaySFX(SfxType.Coin);
             gameObject.SetActive(false);
         }
     }
