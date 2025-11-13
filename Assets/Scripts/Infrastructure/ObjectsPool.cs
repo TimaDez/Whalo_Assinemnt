@@ -52,42 +52,4 @@ namespace Infrastructure
             _objectsPool.Clear();
         }
     }
-
-    public class ObjectsPoolsFactory : MonoBehaviour
-    {
-        private Dictionary<Type, object> _pools = new();
-
-        private static ObjectsPoolsFactory _instance;
-
-        public static ObjectsPoolsFactory Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    var go = new GameObject("ObjectsPoolsFactory");
-                    _instance = go.AddComponent<ObjectsPoolsFactory>();
-                }
-
-                return _instance;
-            }
-        }
-
-        public ObjectsPool<T> GetPool<T>(T prefab) where T : Component
-        {
-            var key = typeof(T);
-            if (!_pools.ContainsKey(key))
-            {
-                _pools.Add(key, new ObjectsPool<T>(prefab, transform));
-            }
-
-            return (ObjectsPool<T>)_pools[key];
-        }
-
-        private void OnDestroy()
-        {
-            _pools = null;
-            _instance = null;
-        }
-    }
 }

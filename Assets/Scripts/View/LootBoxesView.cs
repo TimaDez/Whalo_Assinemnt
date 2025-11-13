@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using DataTypes;
 using Infrastructure;
@@ -8,6 +9,9 @@ using Navigation;
 using UI;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Whalo.View;
 
 namespace Whalo.UI
 {
@@ -15,7 +19,7 @@ namespace Whalo.UI
     {
         public Sprite Sprite;
         public Transform EndPivot;
-        public ViewCounter Container;
+        public CounterView Container;
     }
     
     public class LootBoxesView : MonoBehaviour
@@ -25,27 +29,32 @@ namespace Whalo.UI
         [SerializeField] private Transform _poolObjectsParent;
         [SerializeField] private FlyingResource _flyingResourcePrefab;
         
+        [FormerlySerializedAs("_keyCounter")]
         [Header("Counters")]
-        [SerializeField] private ViewCounter _keyCounter;
-        [SerializeField] private ViewCounter _energyCounter;
-        [SerializeField] private ViewCounter _coinCounter;
+        [SerializeField] private CounterView _key;
+        [SerializeField] private CounterView _energy;
+        [SerializeField] private CounterView _coin;
 
         [Header("Prize Pivots")]
         [SerializeField] private Transform _keyPivot;
         [SerializeField] private Transform _energyPivot;
         [SerializeField] private Transform _coinPivot;
         
+        [SerializeField] private LootBoxData[] _boxesData;
+        [SerializeField] private LootBox[] _boxes;
+        [SerializeField] private Transform[] _viewsContainers;
+        [SerializeField] private Button[] _boxButtons;
+        
         #endregion
 
         #region Private Fields
 
-        //private PlayerModel _playerModel;
         private LevelModel _levelModel;
         private Sprite _keySprite;
         private Sprite _coinsSprite;
         private Sprite _energySprite;
         private ObjectsPool<FlyingResource> _flyingResourcePool;
-        private Dictionary<PrizeType, ResourceData> _resourceData;
+        private Dictionary<PrizeType, ResourceData> _resourcesData;
         
         private PlayerModelSingleton _playerModel;
         
@@ -55,17 +64,16 @@ namespace Whalo.UI
 
         private void Awake()
         {
-            _playerModel = PlayerModelSingleton.Instance;
+            var instance = Models.PlayerModelSingleton.EnsureInstance();
+            _playerModel = instance;
+            //_playerModel = PlayerModelSingleton.Instance;
             _flyingResourcePool = new ObjectsPool<FlyingResource>(_flyingResourcePrefab, _poolObjectsParent);
         }
 
         public void Initialize(LevelModel levelModel)
         {
             _levelModel = levelModel;
-            
-            _playerModel.CoinsBalanceChange += OnCoinsBalanceChange;
-            _playerModel.GemsBalanceChange += OnGemsBalanceChange;
-            _playerModel.KeysBalanceChange += OnKeysBalanceChange;
+            SubscribeModelEvens();
         }
         
         public async UniTask InitView()
@@ -78,31 +86,31 @@ namespace Whalo.UI
                 SpriteLoader.GetSpriteAsync(NetworkNavigation.ENERGY_IMAGE_LINK, token)
             );
             
-            _keyCounter.Init(_keySprite, _levelModel.KeyStarterAmount);
-            _coinCounter.Init(_coinsSprite);
-            _energyCounter.Init(_energySprite);
+            _key.Init(_keySprite, _levelModel.KeyStarterAmount);
+            _coin.Init(_coinsSprite);
+            _energy.Init(_energySprite);
             
-            _resourceData = new Dictionary<PrizeType, ResourceData>
+            _resourcesData = new Dictionary<PrizeType, ResourceData>
             {
-                { PrizeType.Key,    new ResourceData { Sprite = _keySprite, EndPivot = _keyPivot, Container = _keyCounter} },
-                { PrizeType.Coins,  new ResourceData { Sprite = _coinsSprite, EndPivot = _coinPivot, Container = _coinCounter} },
-                { PrizeType.Gems, new ResourceData { Sprite = _energySprite, EndPivot = _energyPivot, Container = _energyCounter } },
+                { PrizeType.Key,    new ResourceData { Sprite = _keySprite, EndPivot = _keyPivot, Container = _key} },
+                { PrizeType.Coins,  new ResourceData { Sprite = _coinsSprite, EndPivot = _coinPivot, Container = _coin} },
+                { PrizeType.Gems, new ResourceData { Sprite = _energySprite, EndPivot = _energyPivot, Container = _energy } },
             };
         }
         
         private void OnKeysBalanceChange(int oldBalance, int newGemsBalance)
         {
-            _keyCounter.SetAmount(newGemsBalance);
+            _key.SetAmount(newGemsBalance);
         }
 
         private void OnGemsBalanceChange(int oldBalance, int newGemsBalance)
         {
-            _energyCounter.SetAmount(newGemsBalance);
+            _energy.SetAmount(newGemsBalance);
         }
 
         private void OnCoinsBalanceChange(int oldBalance, int newGemsBalance)
         {
-            _coinCounter.SetAmount(newGemsBalance);
+            _coin.SetAmount(newGemsBalance);
         }
 
         public async UniTask FlyFrom(PrizeType prizeType, Transform startPivot, int amountToAdd)
@@ -118,7 +126,7 @@ namespace Whalo.UI
             }
         
             var balance = _playerModel.GetBalance(prizeType);
-            var data = _resourceData[prizeType];
+            var data = _resourcesData[prizeType];
             
             var tasks = new List<UniTask>();
             for (var i = 0; i < numOfFliers; i++)
@@ -143,15 +151,23 @@ namespace Whalo.UI
              await resource.FlyTo(endPivot);
         }
 
-        private void OnDestroy()
+        private void SubscribeModelEvens()
         {
-            // _playerModel.CoinsBalanceChange -= OnCoinsBalanceChange;
-            // _playerModel.GemsBalanceChange -= OnGemsBalanceChange;
-            // _playerModel.KeysBalanceChange -= OnKeysBalanceChange;
+            _playerModel.CoinsBalanceChange += OnCoinsBalanceChange;
+            _playerModel.GemsBalanceChange += OnGemsBalanceChange;
+            _playerModel.KeysBalanceChange += OnKeysBalanceChange;
+        }
 
+        private void UnsubscribeModelEvens()
+        {
             _playerModel.CoinsBalanceChange -= OnCoinsBalanceChange;
             _playerModel.GemsBalanceChange -= OnGemsBalanceChange;
             _playerModel.KeysBalanceChange -= OnKeysBalanceChange;
+        }
+        
+        private void OnDestroy()
+        {
+            UnsubscribeModelEvens();
             _playerModel = null;
             _flyingResourcePool.ClearAll();
         }

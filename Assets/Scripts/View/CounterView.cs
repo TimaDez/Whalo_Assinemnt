@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace Whalo.UI
 {
-    public class ViewCounter : MonoBehaviour
+    public class CounterView : MonoBehaviour
     {
         #region Editor
 

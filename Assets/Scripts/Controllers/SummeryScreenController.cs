@@ -9,6 +9,7 @@ using Navigation;
 using UI;
 using UnityEngine;
 using Whalo.Services;
+using Whalo.UI;
 
 namespace Whalo.Controllers
 {
@@ -17,7 +18,7 @@ namespace Whalo.Controllers
         #region Editor
 
         [Header("Counters")]
-        [SerializeField] private ViewCounter[] _counters;
+        [SerializeField] private CounterView[] _counters;
         [SerializeField] private ParticleSystem[] _particle;
         
         #endregion
@@ -86,7 +87,7 @@ namespace Whalo.Controllers
             }
         }
 
-        private async UniTask DoBalanceAnimation(PrizeType prizeType, ViewCounter counter)
+        private async UniTask DoBalanceAnimation(PrizeType prizeType, CounterView counter)
         {
             var amount = _playerModel.GetBalance(prizeType);
             var numOfRewards = amount;

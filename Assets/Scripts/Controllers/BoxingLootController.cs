@@ -23,7 +23,6 @@ namespace Whalo.Controllers
         [SerializeField] private Button[] _boxButtons;
         
         [Header("Models")]
-        //[SerializeField] private PlayerModel _playerModel;
         [SerializeField] private LevelModel _levelModel;
         
         #endregion
@@ -41,7 +40,6 @@ namespace Whalo.Controllers
         private void Awake()
         {
             _modelSingleton =  PlayerModelSingleton.Instance;
-            //_lootBoxesView.Initialize(_levelModel, _playerModel);
             _lootBoxesView.Initialize(_levelModel);
         }
 
@@ -49,33 +47,13 @@ namespace Whalo.Controllers
         {
             InitButtons();
             InitLevel();
-            //_playerModel.Initialize(0, 0 ,_levelModel.KeyStarterAmount);
             _modelSingleton.Initialize(0, 0, _levelModel.KeyStarterAmount);
             await _lootBoxesView.InitView();
         }
 
         private void InitButtons()
         {
-            AddListenerToButton(true);
-        }
-
-        private void SubsribeEvents()
-        {
-            
-        }
-        
-        
-        private void AddListenerToButton(bool add)
-        {
-            var count = _boxButtons.Length;
-            for (var i = 0; i < count; i++)
-            {
-                var index = i;
-                if(add)
-                    _boxButtons[i].onClick.AddListener(() => OnButtonClicked(index).Forget());
-                else
-                    _boxButtons[i].onClick.RemoveListener(() => OnButtonClicked(index).Forget());
-            }
+            SubscribeButtons();
         }
         
         private void InitLevel()
@@ -124,7 +102,7 @@ namespace Whalo.Controllers
             }
 
             await UniTask.WhenAll(tasks);
-            SceneManagementSystem.LoadSceneAsync(ScenesNavigation.SUMMERY_SCREEN_NAME);
+            await SceneManagementSystem.LoadSceneAsync(ScenesNavigation.SUMMERY_SCREEN_NAME);
         }
 
         private async UniTask OpenBoxFlow(int i)
@@ -154,14 +132,34 @@ namespace Whalo.Controllers
 
             var prize = _shuffledPrizes[index];
             await _lootBoxesView.FlyFrom(prize.Type, _viewsContainers[index], prize.Amount);
-            //_playerModel.AddPrize(prize.Type, prize.Amount);
             _modelSingleton.AddPrize(prize.Type, prize.Amount);
             await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
         }
         
+        
+        private void SubscribeButtons()
+        {
+            var count = _boxButtons.Length;
+            for (var i = 0; i < count; i++)
+            {
+                var index = i;
+                _boxButtons[i].onClick.AddListener(() => OnButtonClicked(index).Forget());
+            }
+        }
+        
+        private void UnsubscribeButtons()
+        {
+            var count = _boxButtons.Length;
+            for (var i = 0; i < count; i++)
+            {
+                var index = i;
+                _boxButtons[i].onClick.RemoveListener(() => OnButtonClicked(index).Forget());
+            }
+        }
+
         private void OnDisable()
         {
-            AddListenerToButton(false);
+            UnsubscribeButtons();
             _modelSingleton = null;
         }
 

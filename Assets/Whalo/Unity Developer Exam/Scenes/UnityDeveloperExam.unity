@@ -257,12 +257,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolObjectsParent: {fileID: 1123026899}
   _flyingResourcePrefab: {fileID: 5482300025195904795, guid: fae34e477b3148045a2d3d4f8d2f7345, type: 3}
-  _keyCounter: {fileID: 4394492473241018121}
-  _energyCounter: {fileID: 1277421598}
-  _coinCounter: {fileID: 829144569}
+  _key: {fileID: 4394492473241018121}
+  _energy: {fileID: 1277421598}
+  _coin: {fileID: 829144569}
   _keyPivot: {fileID: 5020917880166629531}
   _energyPivot: {fileID: 2146084653}
   _coinPivot: {fileID: 1024552038}
+  _boxesData:
+  - _lootBoxDoor: {fileID: 3886305071042661941}
+    _prizeContainer: {fileID: 1889419110}
+    _counterView: {fileID: 0}
+    _button: {fileID: 3236537433271412977}
+  - _lootBoxDoor: {fileID: 3886305072617227410}
+    _prizeContainer: {fileID: 967229407}
+    _counterView: {fileID: 0}
+    _button: {fileID: 6327687159482934240}
+  - _lootBoxDoor: {fileID: 3886305070570070067}
+    _prizeContainer: {fileID: 1031032084}
+    _counterView: {fileID: 0}
+    _button: {fileID: 1571893600391097161}
+  - _lootBoxDoor: {fileID: 3886305072225439539}
+    _prizeContainer: {fileID: 1382316403}
+    _counterView: {fileID: 0}
+    _button: {fileID: 3929503460545294201}
+  - _lootBoxDoor: {fileID: 1193177080872158611}
+    _prizeContainer: {fileID: 1295600383}
+    _counterView: {fileID: 0}
+    _button: {fileID: 4467441300447086044}
+  - _lootBoxDoor: {fileID: 3886305072421090658}
+    _prizeContainer: {fileID: 3631390912683525376}
+    _counterView: {fileID: 0}
+    _button: {fileID: 6008093261538624119}
+  - _lootBoxDoor: {fileID: 3886305072051188888}
+    _prizeContainer: {fileID: 2138838460}
+    _counterView: {fileID: 0}
+    _button: {fileID: 2928651359009086513}
+  - _lootBoxDoor: {fileID: 3886305070547450190}
+    _prizeContainer: {fileID: 1400859700}
+    _counterView: {fileID: 0}
+    _button: {fileID: 8208026888047995583}
+  - _lootBoxDoor: {fileID: 3886305071569416370}
+    _prizeContainer: {fileID: 62284040}
+    _counterView: {fileID: 0}
+    _button: {fileID: 3151480151213025770}
+  _boxes: []
+  _viewsContainers: []
+  _boxButtons: []
 --- !u!4 &339918557
 Transform:
   m_ObjectHideFlags: 0
