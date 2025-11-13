@@ -46,7 +46,6 @@ namespace Whalo.View
 
         public async UniTask AnimateBoxOnOpen()
         {
-            Debug.Log($"[LootBoxData] AnimateBoxOnOpen() ");
             await OpenBox();
             await ShowCounter();
         }
@@ -57,7 +56,6 @@ namespace Whalo.View
                 return;
             
             _isOpen = true;
-            Debug.Log($"[LootBox] Interact()");
             
             var t = _lootBox.DOPunchScale(new Vector3(0.2f, 0.2f, 0f), 0.25f, 10, 0.9f);
             await t.AsyncWaitForCompletion();

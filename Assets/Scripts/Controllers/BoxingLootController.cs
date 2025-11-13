@@ -1,14 +1,9 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using Extension;
 using Models;
 using Navigation;
-using UI;
 using UnityEngine;
-using UnityEngine.UI;
 using Whalo.Services;
 using Whalo.UI;
 
@@ -20,10 +15,6 @@ namespace Whalo.Controllers
 
         [SerializeField] private LootBoxesView _lootBoxesView;
         
-        [SerializeField] private LootBox[] _boxes;
-        [SerializeField] private Transform[] _viewsContainers;
-        [SerializeField] private Button[] _boxButtons;
-        
         [Header("Models")]
         [SerializeField] private LevelModel _levelModel;
         
@@ -31,10 +22,10 @@ namespace Whalo.Controllers
 
         #region Private Variables
 
-        private int _clickedCount = 0;
         private List<PrizeModel> _shuffledPrizes;
         private PlayerModelSingleton _playerModel;
         private Stack<bool> _boxesNotOpened = new Stack<bool>();
+        
         #endregion
 
         #region Methods
